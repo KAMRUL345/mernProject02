@@ -1,19 +1,29 @@
 const express = require('express');
-const crypto = require('crypto');
+//const crypto = require('crypto');
+const bcrypt = require('bcrypt');
+
 
 
 const app = express();
 app.use(express.json());
 
-const algorithm = 'aes-256-cbc';
-const secretKey = crypto.randomBytes(32);
-const iv = crypto.randomBytes(16);
 
-function encrypt(text){
-    const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
-    const encrypted = cipher.update(text, 'utf8', 'hex');
-    
-}
+const users = [];
+app.post('/register', async (req, res)=>{
+    const {username, password} = req.body;
+    try {
+        const hashPassword = await bcrypt.hash(password, 10);
+        users.push({
+            username: username,
+            password: hashPassword
+        })
+        console.log(users);
+        res.status(201).json({message: "User registered successfully"})
+    } catch(error) {
+        res.status(500).json({error: "Something went wrong!"})
+
+    }
+})
 
 
 const PORT = 3000;

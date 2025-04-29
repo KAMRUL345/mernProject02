@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/KAMRUL345/mernProject02#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^5.1.0",
