@@ -24,7 +24,23 @@ app.post('/register', async (req, res)=>{
 
     }
 })
+//login
+app.post('/login', async (req, res)=>{
+    const {username, password} = req.body;
+    try {
+        const user = users.find(user=> user.username === username) 
+        if(!user) return res.status(404).json({message: "User not found"});
+        const isMatch =  await bcrypt.compare(password, user.password)
+        if(isMatch){
+            res.status(200).json({message: "Login Successful !"})
+        }else{
+             res.status(401).json({message: "Invalid Password"})
+        }
+    } catch(error){
+        res.status(500).json({error:"Something wend wrong"})
 
+    }
+})
 
 const PORT = 3000;
 
